@@ -178,4 +178,12 @@ onMounted(() => {
 .category-form {
   margin-bottom: 20px;
 }
+p {
+  color: black;
+}
+
+h3{
+  color: black;
+}
+
 </style>
