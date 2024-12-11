@@ -9,13 +9,13 @@
     <div v-if="orders.length > 0" style="margin-top: 20px;">
       <el-table :data="orders" style="width: 100%">
         <el-table-column prop="orderID" label="Order ID" ></el-table-column>
-        <el-table-column prop="status" label="Status" ></el-table-column>
-        <el-table-column prop="client" label="Client" ></el-table-column>
-        <el-table-column prop="supervisor" label="Supervisor"></el-table-column>
         <el-table-column prop="orderDate" label="Order Date"></el-table-column>
         <el-table-column prop="itemID" label="Item ID" ></el-table-column>
         <el-table-column prop="idescription" label="Item Description" ></el-table-column>
-        <el-table-column prop="deliveredDate" label="Delivered Date" ></el-table-column>
+        <el-table-column prop="client" label="Client" ></el-table-column>
+        <el-table-column prop="supervisor" label="Supervisor"></el-table-column>
+        <el-table-column prop="status" label="Status" ></el-table-column>
+        <el-table-column prop="deliveredDate" label="Status Date" ></el-table-column>
         <el-table-column prop="deliveredBy" label="Delivered By" ></el-table-column>
         <el-table-column prop="donor" label="Donor" ></el-table-column>
         <el-table-column prop="donateDate" label="Donate Date" ></el-table-column>

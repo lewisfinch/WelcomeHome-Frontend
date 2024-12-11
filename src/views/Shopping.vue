@@ -1,6 +1,19 @@
 <template>
   <div>
     <h3>Shopping - Add to Current Order</h3>
+    <div>
+        <h3>Order Details</h3>
+        <div v-if="currentOrder">
+        <p><strong>Order ID:</strong> {{ currentOrder.orderID }}</p>
+        <p><strong>Order Date:</strong> {{ currentOrder.orderDate }}</p>
+        <p><strong>Order Notes:</strong> {{ currentOrder.orderNotes }}</p>
+        <p><strong>Supervisor:</strong> {{ currentOrder.supervisor }}</p>
+        <p><strong>Client:</strong> {{ currentOrder.client }}</p>
+      </div>
+      <div v-else>
+        <el-alert title="No current order found." type="warning" show-icon />
+      </div>
+      </div>
 
     <!-- 类别选择 -->
     <el-form :inline="true" class="category-form">
@@ -57,6 +70,7 @@ import { ElMessage } from 'element-plus';
 const categories = ref([]); // 存储类别
 const items = ref([]); // 存储物品
 const selectedCategory = ref(null); // 当前选择的类别
+const currentOrder = ref(null);
 const currentOrderId = localStorage.getItem('orderId'); // 当前订单 ID
 
 // 获取所有类别
@@ -103,6 +117,27 @@ const fetchItems = async () => {
   }
 };
 
+const fetchCurrentOrder = async () => {
+  if (!currentOrderId) {
+    ElMessage.error('No active order found. Please start an order first.');
+    return;
+  }
+
+  try {
+    const response = await axios.get('http://localhost:8080/order/getCurrentOrder', {
+      params: { orderID: currentOrderId }
+    });
+    if (response.data && response.data.data) {
+      currentOrder.value = response.data.data;
+    } else {
+      ElMessage.warning('No current order found.');
+    }
+  } catch (error) {
+    console.error('Error fetching current order:', error);
+    ElMessage.error('Failed to fetch current order. Please try again later.');
+  }
+};
+
 // 添加物品到订单
 const addToOrder = async (item) => {
   if (!currentOrderId) {
@@ -133,7 +168,10 @@ const addToOrder = async (item) => {
 };
 
 // 页面加载时获取类别
-onMounted(fetchCategories);
+onMounted(() => {
+  fetchCategories();
+  fetchCurrentOrder();
+});
 </script>
 
 <style scoped>
